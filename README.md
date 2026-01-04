@@ -158,7 +158,7 @@ The implementations and experiments in this week are inspired by Otter-style pro
 
 ### 1. Given-Clause Algorithm
 
-Implemented a saturation-style resolution loop based on the **Given-Clause Algorithm**, separating clauses into:
+Read upon a saturation-style resolution loop based on the **Given-Clause Algorithm**, separating clauses into:
 
 - **Active set** (processed clauses)
 - **Passive set** (unprocessed clauses)
@@ -180,7 +180,7 @@ This replaces naïve pairwise resolution used in Week 1.
 
 ### 2. Set of Support (SOS) Strategy
 
-Implemented **Set of Support (SOS)** as a restriction on resolution to improve goal-directedness.
+Read upon **Set of Support (SOS)** as a restriction on resolution to improve goal-directedness.
 
 Key behavior:
 - Initial clauses are divided into:
@@ -199,7 +199,7 @@ SOS is integrated directly into the given-clause selection logic.
 
 ### 3. Subsumption & Redundancy Elimination
 
-Implemented **forward and backward subsumption** to remove redundant clauses.
+Read upon **forward and backward subsumption** to remove redundant clauses.
 
 Subsumption logic:
 - Clause C₁ subsumes C₂ if there exists a substitution θ such that  
@@ -220,7 +220,7 @@ These mechanisms are essential for keeping the clause database manageable.
 
 ### 4. Clause Weighting & Selection Heuristics
 
-Implemented basic **clause weighting** and **selection heuristics** to guide search.
+Read upon basic **clause weighting** and **selection heuristics** to guide search.
 
 Clause metrics explored:
 - Clause length (number of literals)
@@ -279,12 +279,4 @@ This perspective bridges symbolic reasoning and modern heuristic search.
 ---
 
 ## Outcome
-
-By the end of Week 2, the resolution prover evolves from a basic refutation engine into a **controlled, saturation-based theorem prover** featuring:
-
-- Given-Clause resolution loop
-- Set of Support strategy
-- Subsumption-based redundancy elimination
-- Clause weighting and heuristic selection
-
 This week marks the transition from *theoretical completeness* to *practical automated reasoning*, laying the groundwork for advanced provers and heuristic or ML-guided inference systems.

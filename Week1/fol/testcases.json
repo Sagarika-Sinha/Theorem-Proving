@@ -1,0 +1,202 @@
+{
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Nested function modus ponens",
+      "clauses": [
+        ["~P(f(x))", "Q(g(x,y))"],
+        ["P(f(a))"],
+        ["~Q(g(a,b))"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "P(f(a))→Q(g(a,b)), P(f(a))∧¬Q(g(a,b)) → ⊥"
+    },
+    {
+      "id": 2,
+      "description": "Nested term contradiction",
+      "clauses": [
+        ["P(f(g(x)))"],
+        ["~P(f(g(a)))"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "P(f(g(a))) ∧ ¬P(f(g(a))) → ⊥"
+    },
+    {
+      "id": 3,
+      "description": "Disjunctive satisfiable",
+      "clauses": [
+        ["P(x)", "Q(y)"],
+        ["~P(a)", "R(b)"],
+        ["S(c)"]
+      ],
+      "expected_result": "TIMEOUT",
+      "explanation": "Multiple SAT assignments exist",
+      "max_iterations": 100
+    },
+    {
+      "id": 4,
+      "description": "Multi-hop transitivity",
+      "clauses": [
+        ["~R(x,y)", "~R(y,z)", "R(x,z)"],
+        ["~R(x,y)", "~R(y,z)", "~R(z,w)", "R(x,w)"],
+        ["R(a,f(b))"],
+        ["R(f(b),f(f(c)))"],
+        ["R(f(f(c)),d)"],
+        ["~R(a,d)"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "Transitive closure: R(a,f(b))∧R(f(b),f(f(c)))∧R(f(f(c)),d)→R(a,d), ¬R(a,d) → ⊥"
+    },
+    {
+      "id": 5,
+      "description": "Chained binary predicates",
+      "clauses": [
+        ["~Likes(x,y)", "~Likes(y,z)", "Compatible(x,z)"],
+        ["~Compatible(x,y)", "Friends(x,y)", "Enemies(x,y)"],
+        ["Likes(Alice,Bob)"],
+        ["Likes(Bob,Charlie)"],
+        ["~Friends(Alice,Charlie)"],
+        ["~Enemies(Alice,Charlie)"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "Compatible(Alice,Charlie) derived, but ¬Friends∧¬Enemies → ⊥"
+    },
+    {
+      "id": 6,
+      "description": "3-level function nesting",
+      "clauses": [
+        ["~Parent(x,y)", "Ancestor(x,y)"],
+        ["~Ancestor(x,y)", "~Ancestor(y,z)", "Ancestor(x,z)"],
+        ["~Ancestor(x,y)", "~Parent(y,z)", "Ancestor(x,z)"],
+        ["Parent(f(f(f(a))),f(f(a)))"],
+        ["Parent(f(f(a)),f(a))"],
+        ["Parent(f(a),a)"],
+        ["~Ancestor(f(f(f(a))),a)"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "Ancestor transitive closure over Parent chain → ⊥"
+    },
+    {
+      "id": 7,
+      "description": "Conditional with mutual exclusion",
+      "clauses": [
+        ["~Human(x)", "Mortal(x)"],
+        ["~Mortal(x)", "Dies(x)"],
+        ["Human(Socrates)", "Immortal(Socrates)"],
+        ["~Immortal(x)", "~Dies(x)"]
+      ],
+      "expected_result": "TIMEOUT",
+      "explanation": "Satisfiable: Immortal(Socrates)∧¬Dies(Socrates) or Human(Socrates)∧Dies(Socrates)",
+      "max_iterations": 150
+    },
+    {
+      "id": 8,
+      "description": "Equivalence relation transitivity",
+      "clauses": [
+        ["~Equal(x,y)", "Equal(y,x)"],
+        ["~Equal(x,y)", "~Equal(y,z)", "Equal(x,z)"],
+        ["Equal(f(a),f(b))"],
+        ["Equal(f(b),f(c))"],
+        ["P(f(c))"],
+        ["~P(f(a))"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "Equal(f(a),f(c)) by transitivity, P property mismatch → ⊥"
+    },
+    {
+      "id": 9,
+      "description": "3-arity predicate resolution",
+      "clauses": [
+        ["~R(x,y,z)", "~S(y,z,w)", "T(x,w)"],
+        ["R(a,f(b),g(c))"],
+        ["S(f(b),g(c),h(d))"],
+        ["~T(a,h(d))", "Q(a)"],
+        ["~Q(a)"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "R∧S→T, T(a,h(d)) derived, conflicts with ¬T∨Q and ¬Q"
+    },
+    {
+      "id": 10,
+      "description": "Pigeonhole 3→2",
+      "clauses": [
+        ["In(p1,h1)", "In(p1,h2)"],
+        ["In(p2,h1)", "In(p2,h2)"],
+        ["In(p3,h2)"]
+      ],
+      "expected_result": "TIMEOUT",
+      "explanation": "All pigeons can fit: satisfiable assignment exists",
+      "max_iterations": 50
+    },
+    {
+      "id": 11,
+      "description": "List membership with cons",
+      "clauses": [
+        ["~Member(x,cons(y,z))", "Equal(x,y)", "Member(x,z)"],
+        ["Member(a,cons(b,cons(c,nil)))"],
+        ["~Equal(a,b)"],
+        ["~Member(a,cons(c,nil))"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "Member(a,cons(b,_)), ¬Equal(a,b) → Member(a,tail), conflicts ¬Member",
+      "max_iterations": 80
+    },
+    {
+      "id": 12,
+      "description": "Graph transitive reachability",
+      "clauses": [
+        ["~Edge(x,y)", "Reach(x,y)"],
+        ["~Reach(x,y)", "~Edge(y,z)", "Reach(x,z)"],
+        ["Edge(a,b)"],
+        ["Edge(b,c)"],
+        ["Edge(c,a)"],
+        ["~Reach(a,c)"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "Edge→Reach, transitivity derives Reach(a,c), conflicts ¬Reach(a,c)",
+      "max_iterations": 100
+    },
+    {
+      "id": 13,
+      "description": "Type hierarchy IsA",
+      "clauses": [
+        ["~IsA(x,y)", "~IsA(y,z)", "IsA(x,z)"],
+        ["~IsA(x,Animal)", "CanMove(x)"],
+        ["IsA(Dog,Mammal)"],
+        ["IsA(Mammal,Animal)"],
+        ["IsA(Fido,Dog)"],
+        ["~CanMove(Fido)"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "IsA transitive: Fido→Dog→Mammal→Animal, IsA(Fido,Animal)→CanMove(Fido), conflicts",
+      "max_iterations": 100
+    },
+    {
+      "id": 14,
+      "description": "Set subset transitivity",
+      "clauses": [
+        ["~Subset(x,y)", "~Member(z,x)", "Member(z,y)"],
+        ["Subset(A,B)"],
+        ["Subset(B,C)"],
+        ["Member(e,A)"],
+        ["~Member(e,C)"]
+      ],
+      "expected_result": "UNSAT",
+      "explanation": "Subset transitive: A⊆B⊆C, e∈A→e∈C, conflicts ¬Member(e,C)",
+      "max_iterations": 80
+    },
+    {
+      "id": 15,
+      "description": "Multi-variable disjunctive SAT",
+      "clauses": [
+        ["P(x,y)", "Q(y,z)", "R(z,w)"],
+        ["~P(a,b)", "S(a)"],
+        ["~Q(c,d)", "T(d)"],
+        ["U(e)", "V(f)"]
+      ],
+      "expected_result": "TIMEOUT",
+      "explanation": "All clauses satisfiable with appropriate variable assignments",
+      "max_iterations": 100
+    }
+  ]
+}

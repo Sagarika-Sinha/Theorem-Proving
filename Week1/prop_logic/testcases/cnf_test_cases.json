@@ -1,0 +1,94 @@
+{
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Triple negation",
+      "input": "~~~P",
+      "expected": [["~P"]]
+    },
+    {
+      "id": 2,
+      "description": "Distribution (OR over AND)",
+      "input": "P | (Q & R)",
+      "expected": [["P", "Q"], ["P", "R"]]
+    },
+    {
+      "id": 3,
+      "description": "Complex expression with implications",
+      "input": "(P -> Q) & (Q -> R)",
+      "expected": [["~P", "Q"], ["~Q", "R"]]
+    },
+    {
+      "id": 4,
+      "description": "Negated implication",
+      "input": "~(P -> Q) | R",
+      "expected": [["P", "R"], ["~Q", "R"]]
+    },
+    {
+      "id": 5,
+      "description": "Nested implications",
+      "input": "P -> (Q -> R)",
+      "expected": [["~P", "~Q", "R"]]
+    },
+    {
+      "id": 6,
+      "description": "Complex nested expression",
+      "input": "(P | Q) & (R | S)",
+      "expected": [["P", "Q"], ["R", "S"]]
+    },
+    {
+      "id": 7,
+      "description": "Multiple implications with OR",
+      "input": "(P -> Q) | (R -> S)",
+      "expected": [["~P", "~R", "Q", "S"]]
+    },
+    {
+      "id": 8,
+      "description": "Complex De Morgan application",
+      "input": "~((P & Q) | (R & S))",
+      "expected": [["~P", "~Q"], ["~R", "~S"]]
+    },
+    {
+      "id": 9,
+      "description": "Deeply nested with multiple operators",
+      "input": "((P -> Q) & (R -> S)) -> T",
+      "expected": [["P", "R", "T"], ["P", "T", "~S"], ["R", "T", "~Q"], ["T", "~Q", "~S"]]
+    },
+    {
+      "id": 10,
+      "description": "Distribution with three disjuncts",
+      "input": "(P | Q | R) & S",
+      "expected": [["P", "Q", "R"], ["S"]]
+    },
+    {
+      "id": 11,
+      "description": "Chained implications",
+      "input": "(P -> Q) -> (Q -> R)",
+      "expected": [["P", "~Q", "R"], ["~Q", "R"]]
+    },
+    {
+      "id": 12,
+      "description": "Complex nested De Morgan",
+      "input": "~((P | Q) & (R | S))",
+      "expected": [["~P", "~R"], ["~P", "~S"], ["~Q", "~R"], ["~Q", "~S"]]
+    },
+    {
+      "id": 13,
+      "description": "Quadruple negation",
+      "input": "~~~~P",
+      "expected": [["P"]]
+    },
+    {
+      "id": 14,
+      "description": "Negated distribution",
+      "input": "~(P | (Q & R & S))",
+      "expected": [["~P"], ["~Q", "~R", "~S"]]
+    },
+    {
+      "id": 15,
+      "description": "Multiple nested implications and negations",
+      "input": "~(~(P -> Q) -> ~(R -> S))",
+      "expected": [["P"], ["~Q"], ["~R", "S"]]
+    }
+  ]
+}

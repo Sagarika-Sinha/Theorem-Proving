@@ -1,0 +1,154 @@
+{
+  "test_cases": [
+    {
+      "id": 1,
+      "description": "Unit propagation chain",
+      "clauses": [["P"], ["~P", "Q"], ["~Q", "R"], ["~R", "S"]],
+      "expected_sat": true,
+      "expected_assignment": {"P": true, "Q": true, "R": true, "S": true}
+    },
+    {
+      "id": 2,
+      "description": "Pure literal with mixed clauses",
+      "clauses": [["P", "Q"], ["P", "~Q"], ["R", "S"], ["~S", "T"]],
+      "expected_sat": true
+    },
+    {
+      "id": 3,
+      "description": "3-SAT satisfiable with backtracking",
+      "clauses": [["P", "Q", "R"], ["~P", "Q", "R"], ["P", "~Q", "R"], ["P", "Q", "~R"]],
+      "expected_sat": true
+    },
+    {
+      "id": 4,
+      "description": "Complex satisfiable formula",
+      "clauses": [
+        ["A", "B", "C"],
+        ["~A", "D"],
+        ["~B", "D"],
+        ["~C", "~D"],
+        ["A", "~D"]
+      ],
+      "expected_sat": true
+    },
+    {
+      "id": 5,
+      "description": "Four variable SAT with dependencies",
+      "clauses": [
+        ["A", "B"],
+        ["~A", "C"],
+        ["~B", "~C"],
+        ["D", "~A"],
+        ["~D", "B"]
+      ],
+      "expected_sat": true
+    },
+    {
+      "id": 6,
+      "description": "Pigeonhole principle (2 pigeons, 1 hole - UNSAT)",
+      "clauses": [
+        ["P1"], ["P2"],
+        ["~P1", "~P2"]
+      ],
+      "expected_sat": true
+    },
+    {
+      "id": 7,
+      "description": "3-SAT unsatisfiable (all combinations)",
+      "clauses": [
+        ["P", "Q", "R"],
+        ["P", "Q", "~R"],
+        ["P", "~Q", "R"],
+        ["P", "~Q", "~R"],
+        ["~P", "Q", "R"],
+        ["~P", "Q", "~R"],
+        ["~P", "~Q", "R"],
+        ["~P", "~Q", "~R"]
+      ],
+      "expected_sat": false
+    },
+    {
+      "id": 8,
+      "description": "Complex UNSAT with multiple variables",
+      "clauses": [
+        ["A", "B"],
+        ["~A", "C"],
+        ["~B", "C"],
+        ["~C", "D"],
+        ["~D"]
+      ],
+      "expected_sat": false
+    },
+    {
+      "id": 9,
+      "description": "Chain of implications (UNSAT)",
+      "clauses": [
+        ["~A", "B"],
+        ["~B", "C"],
+        ["~C", "D"],
+        ["~D", "E"],
+        ["A"],
+        ["~E"]
+      ],
+      "expected_sat": false
+    },
+    {
+      "id": 10,
+      "description": "Pigeonhole principle (3 pigeons, 2 holes - UNSAT)",
+      "clauses": [
+        ["P1H1", "P1H2"],
+        ["P2H1", "P2H2"],
+        ["P3H1", "P3H2"],
+        ["~P1H1", "~P2H1"],
+        ["~P1H1", "~P3H1"],
+        ["~P2H1", "~P3H1"],
+        ["~P1H2", "~P2H2"],
+        ["~P1H2", "~P3H2"],
+        ["~P2H2", "~P3H2"]
+      ],
+      "expected_sat": false
+    },
+    {
+      "id": 11,
+      "description": "Long clause satisfiable",
+      "clauses": [
+        ["A", "B", "C", "D", "E", "F"],
+        ["~A", "~B"],
+        ["~C", "~D"],
+        ["~E", "~F"]
+      ],
+      "expected_sat": true
+    },
+    {
+      "id": 12,
+      "description": "Single empty clause",
+      "clauses": [[]],
+      "expected_sat": false
+    },
+    {
+      "id": 13,
+      "description": "Empty clause set",
+      "clauses": [],
+      "expected_sat": true
+    },
+    {
+      "id": 14,
+      "description": "Contradictory unit clauses",
+      "clauses": [["P"], ["~P"]],
+      "expected_sat": false
+    },
+    {
+      "id": 15,
+      "description": "Many variables, sparse constraints (SAT)",
+      "clauses": [
+        ["A", "B"],
+        ["C", "D"],
+        ["E", "F"],
+        ["G", "H"],
+        ["~A", "~C"],
+        ["~E", "~G"]
+      ],
+      "expected_sat": true
+    }
+  ]
+}
